@@ -1,4 +1,4 @@
-function D = nodePairwiseDist(type,w,R)
+function D = node_pairwise_dist(type,w,R)
     switch(type)
         case 'relational'
             c = size(w,1);
@@ -12,14 +12,14 @@ function D = nodePairwiseDist(type,w,R)
             D(D < 0) = 0;
             
         case 'relationalpdist'
-            D = pdist(w,@relationalDist, R);
+            D = pdist(w,@relational_dist, R);
             
         otherwise
             D = squareform(pdist(w,'euclidean'));
     end 
 end
 
-function D = relationalDist(wi, w, R)
+function D = relational_dist(wi, w, R)
     n = size(w,1);
     D = zeros(n,1);
     

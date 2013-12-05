@@ -1,7 +1,7 @@
 %**************************************************************************
 %
 %**************************************************************************
-function coords = nodeCoords(mapdim)
+function coords = node_coords(mapdim)
     coords = zeros(prod(mapdim),2);
     coords(:,1) = repmat([0:mapdim(1)-1]',mapdim(2),1);
     startpos = 1;

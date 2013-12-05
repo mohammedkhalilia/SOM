@@ -17,7 +17,7 @@ function [qe te] = quality(u, Dx, mapdim, m)
 %           "Topology preservation in SOM", E Arsuaga Uriarte, F Díaz Martín, (2005)
 %           International Journal of Mathematical and Computer Sciences
 
-    coords = nodeCoords(mapdim);
+    coords = node_coords(mapdim);
     nodeDist = squareform(pdist(coords,'euclidean'));
     
     % Quantization error (QE)

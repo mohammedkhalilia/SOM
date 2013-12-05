@@ -6,7 +6,7 @@
 %    http://www.uni-marburg.de/fb12/datenbionik/pdf/pubs/1990/UltschSiemon90
 %**************************************************************************
 
-function [umatrix uheight] = somUmatrix(mapdim,D)
+function [umatrix uheight] = som_umatrix(mapdim,D)
     y = mapdim(1);
     x = mapdim(2);
     umatrix = zeros(2*y - 1,2*x - 1);

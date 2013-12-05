@@ -1,4 +1,4 @@
-function [codebook u bmu hu h m Dx cost] = somStep(input, codebook, iter, nodeDist)
+function [codebook u bmu hu h m Dx cost] = som_step(input, codebook, iter, nodeDist)
     x = input.data;
     [n ~] = size(x);
     trainLen = input.maxIter;
@@ -24,7 +24,7 @@ function [codebook u bmu hu h m Dx cost] = somStep(input, codebook, iter, nodeDi
             u = sparse(bmu,1:n,1,prod(input.mapdim),n);
             l = input.lrate(1) * (input.lrate(2)/input.lrate(1))^(iter/trainLen);
             h = l * exp(-nodeDist/(2*r^2)); 
-            codebook = updateCodeBookVectors('mtype','online','h',h,'Dx',Dx,'codebook',codebook);
+            codebook = update_codebooks('mtype','online','h',h,'Dx',Dx,'codebook',codebook);
                     
         case 'bsom'
             %% Batch SOM case
@@ -36,7 +36,7 @@ function [codebook u bmu hu h m Dx cost] = somStep(input, codebook, iter, nodeDi
             [~, bmu] = min(Dx,[],1);        
             u = full(sparse(bmu,1:n,1,prod(input.mapdim),n));
             h = exp(-nodeDist/(2*r^2)); 
-            codebook = updateCodeBookVectors('mtype','bsom','h',h,'u',u,'x',x);
+            codebook = update_codebooks('mtype','bsom','h',h,'u',u,'x',x);
          
             % update the value of the objective function
             UD = u .* (h * Dx);
@@ -79,7 +79,7 @@ function [codebook u bmu hu h m Dx cost] = somStep(input, codebook, iter, nodeDi
             u(:,zero) = 1/munits; 
             u(nonzero) = tmp(nonzero) ./ S(nonzero);
             
-            codebook = updateCodeBookVectors('mtype','fbsom','u',u,'h',h,'bmu',bmu,'m',m,'x',x);
+            codebook = update_codebooks('mtype','fbsom','u',u,'h',h,'bmu',bmu,'m',m,'x',x);
 
             % update the value of the objective function  
             hu = (h.^m);% * (u.^m);     
@@ -97,7 +97,7 @@ function [codebook u bmu hu h m Dx cost] = somStep(input, codebook, iter, nodeDi
             [~, bmu] = min(Dx,[],1);
             u = full(sparse(bmu,1:n,1,prod(input.mapdim),n));
             h = exp(-nodeDist/(2*r^2)); 
-            codebook = updateCodeBookVectors('mtype','rbsom','h',h,'bmu',bmu);
+            codebook = update_codebooks('mtype','rbsom','h',h,'bmu',bmu);
             
             % update the value of the objective function
             hu = h * u;
@@ -144,7 +144,7 @@ function [codebook u bmu hu h m Dx cost] = somStep(input, codebook, iter, nodeDi
             u(nonzero) = tmp(nonzero) ./ S(nonzero);
             
             % updatde the coefficient
-            codebook = updateCodeBookVectors('mtype','frbsom','u',u,'h',h,'m',m,'D',x);
+            codebook = update_codebooks('mtype','frbsom','u',u,'h',h,'m',m,'D',x);
             
             % update the value of the objective function
             hu = (h.^m) * (u.^m);      

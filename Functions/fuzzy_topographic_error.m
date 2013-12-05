@@ -1,4 +1,4 @@
-function [te map] = fuzzyTopographicError(mapdim, u)
+function [te map] = fuzzy_topographic_error(mapdim, u)
     y = mapdim(1);
     x = mapdim(2);
     [~, n] = size(u);
@@ -11,7 +11,7 @@ function [te map] = fuzzyTopographicError(mapdim, u)
     for j=1:y     
         for i=1:x
             S1 = sub2ind(mapdim, j, i);
-            neighbors = neuronImmediateNeighbors(mapdim, j,i);
+            neighbors = neuron_immediate_neighbors(mapdim, j,i);
             temp = abs(u(neighbors,:) - (ones(length(neighbors),1) * u(S1,:)));
             map(j,i,:) = sum(temp);
         end  
@@ -44,12 +44,12 @@ function [te map] = fuzzyTopographicError(mapdim, u)
         
         if length(regions) > 2
             %if there are neurons enclosed, sum their values
-            regionsize = [];
+            regionSize = [];
             for r=1:length(regions)
-                regionsize(regions(r)+1) = length(find(w == regions(r)));
+                regionSize(regions(r)+1) = length(find(w == regions(r)));
             end
-            [~, maxregion] = max(regionsize);
-            idx = w ~=0 & w~=maxregion-1;
+            [~, maxRegion] = max(regionSize);
+            idx = w ~=0 & w~=maxRegion-1;
             te = te + sum(temp(idx));
         else
             %if not then it means the neurons are not enclosed and the

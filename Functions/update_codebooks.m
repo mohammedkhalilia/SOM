@@ -1,4 +1,4 @@
-function codebook = updateCodeBookVectors(varargin)
+function codebook = update_codebooks(varargin)
     
     %evaluate the paramters
     for i=1:2:length(varargin)

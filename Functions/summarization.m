@@ -1,5 +1,5 @@
 function [region fig] = summarization(map, config, dataset)
-    coords = nodeCoords(config.mapdim);
+    coords = node_coords(config.mapdim);
     
     %this hardens the memberships and assigned a single neuron to every
     %object

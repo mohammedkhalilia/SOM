@@ -1,7 +1,7 @@
 %**************************************************************************
 %
 %**************************************************************************
-function nodeDist = getCoordDist(munits,coords)
+function nodeDist = coord_dist(munits,coords)
     nodeDist = zeros(munits);
     for i=1:munits-1
         inds = i+1:munits;

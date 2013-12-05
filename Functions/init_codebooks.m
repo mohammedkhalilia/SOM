@@ -1,7 +1,7 @@
 %**************************************************************************
 %
 %**************************************************************************
-function [codebook map] = initCodeBookVectors(x, mapdim, initfun)
+function [codebook map] = init_codebooks(x, mapdim, initfun)
     K = mapdim(1);
     J = mapdim(2);
     [n d] = size(x);

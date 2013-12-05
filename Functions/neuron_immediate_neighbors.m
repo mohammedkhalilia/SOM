@@ -1,4 +1,4 @@
-function idx = neuronImmediateNeighbors(mapdim,j,i)
+function idx = neuron_immediate_neighbors(mapdim,j,i)
     y = mapdim(1);
     x = mapdim(2);    
     idx = [];
