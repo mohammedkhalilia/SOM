@@ -1,4 +1,4 @@
-function [qe te] = quality(u, Dx, mapdim, m)
+function [qe te] = quality(map)
 %% Measure the quality of the map
 %   Quantization Error (qe): measures the average distance between each 
 %       data vector and its best matching unit (BMU). The smaller the 
@@ -17,14 +17,17 @@ function [qe te] = quality(u, Dx, mapdim, m)
 %           "Topology preservation in SOM", E Arsuaga Uriarte, F Díaz Martín, (2005)
 %           International Journal of Mathematical and Computer Sciences
 
-    coords = node_coords(mapdim);
+    coords = node_coords(map.config.dim);
     nodeDist = squareform(pdist(coords,'euclidean'));
+    u = map.u;
+    Dcn = map.Dcn;
     
     % Quantization error (QE)
-    if m > 1
-        UD = (u.^m) .* Dx; 
+    if isfield(map.config,'fuzzifier')
+        m = map.config.fuzzifier(2);
+        UD = (u.^m) .* Dcn; 
     else
-        UD = u.*Dx; 
+        UD = u.*Dcn; 
     end
             
     qe = sum(UD(:))/size(u,2);
@@ -35,12 +38,12 @@ function [qe te] = quality(u, Dx, mapdim, m)
         idx = sub2ind(size(nodeDist), idx(1,:),idx(2,:));
         te = 1-nodeDist(idx);
         te(te ~= 0) = 1;
-        te = sum(te)/size(Dx,2);
+        te = sum(te)/size(Dcn,2);
     else
         [~, idx] = sort(Dx,1);
         idx = sub2ind(size(nodeDist), idx(1,:),idx(2,:));
         te = 1-nodeDist(idx);
         te(te ~= 0) = 1;
-        te = sum(te)/size(Dx,2);
+        te = sum(te)/size(Dcn,2);
     end
 end

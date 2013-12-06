@@ -1,19 +1,21 @@
-function [te map] = fuzzy_topographic_error(mapdim, u)
-    y = mapdim(1);
-    x = mapdim(2);
+function [te mapTmp] = fuzzy_topographic_error(map)
+    u = map.u;
+    y = map.config.dim(1);
+    x = map.config.dim(2);
     [~, n] = size(u);
-    map = zeros(y,x,n);
+    mapTmp = zeros(y,x,n);
     te = 0;
     
     %% Build individual maps for every object
     % If we loop through every object this process will take a very long
     % time, instead we loop through every neuron.
+    
     for j=1:y     
         for i=1:x
-            S1 = sub2ind(mapdim, j, i);
-            neighbors = neuron_immediate_neighbors(mapdim, j,i);
+            S1 = sub2ind(map.config.dim, j, i);
+            neighbors = neuron_neighbors(map.config.dim, j,i);
             temp = abs(u(neighbors,:) - (ones(length(neighbors),1) * u(S1,:)));
-            map(j,i,:) = sum(temp);
+            mapTmp(j,i,:) = sum(temp);
         end  
     end
     
@@ -36,7 +38,7 @@ function [te map] = fuzzy_topographic_error(mapdim, u)
     %
     % 6) Return the average error across all neurons
     for i=1:n
-        temp = map(:,:,i);
+        temp = mapTmp(:,:,i);
         temp = temp./sum(temp(:));
         m = im2bw(temp,graythresh(temp));%temp > mean(temp(:));% + std(temp(:));
         w = watershed(m);
@@ -66,7 +68,7 @@ function [te map] = fuzzy_topographic_error(mapdim, u)
     
     if n == 1
         figure;imagesc(w);set(gca,'YDir','normal');
-        figure;imagesc(1-map);
+        figure;imagesc(1-mapTmp);
         colormap(gray(256)); %gray(256) or Jet
         set(gca,'YDir','normal');
     end

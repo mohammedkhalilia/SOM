@@ -1,5 +1,5 @@
 function [region fig] = summarization(map, dataset)
-    coords = node_coords(map.config.mapdim);
+    coords = node_coords(map.config.dim);
     
     %this hardens the memberships and assigned a single neuron to every
     %object
@@ -11,9 +11,9 @@ function [region fig] = summarization(map, dataset)
     [~,neuron2object] = max(map.u,[],2);
     
     %track which neuron belongs to which region
-    neuron2region = zeros(prod(map.config.mapdim),1);
+    neuron2region = zeros(prod(map.config.dim),1);
     
-    WS = watershed(map.vis.uheight);
+    WS = watershed(map.visual.uheight);
     regionInd = unique(WS);
     regionInd = regionInd(2:end);
     region = regionprops(WS);
@@ -22,8 +22,8 @@ function [region fig] = summarization(map, dataset)
     %problem once we annotate the map with labels. We fix this issue using
     %flipud function
     %imagesc(flipud(1-map.vis.uheight));
-    fig = imagesc(1-map.vis.uheight);
-    colormap(gray(256)); %gray(256) or Jet
+    fig = imagesc(1-map.visual.uheight);
+    colormap(gray(256));
     set(gca,'YDir','normal');
     
     parentImgPos = get(gca,'Position');
@@ -191,7 +191,7 @@ function [region fig] = summarization(map, dataset)
                 %for crisp SOM we do not have representives for every
                 %neurons since the u{ik} = {0,1} so all objects with
                 %membership 1 are representitive of that neuron
-                if strcmp(map.config.alg,'RELATIONALFUZZY') || strcmp(map.config.mode,'FUZZYBATCH')
+                if strcmp(map.config.alg,'RELATIONALFUZZY') || strcmp(map.config.alg,'FUZZYBATCH')
                     reps = neuron2object(neuronInds);
                 else
                     reps = region(rid).Objects;
@@ -233,7 +233,7 @@ function [region fig] = summarization(map, dataset)
     rp = find(ismember(1:length(map.bmu),objectsFound) == 0);
            
     %pairwise distances among neurons
-    d = map.codebookDist;
+    d = map.Dcc;
            
     assignedNeurons = find(neuron2region > 0);
            

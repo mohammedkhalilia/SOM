@@ -6,7 +6,7 @@ function codebook = update_codebooks(varargin)
     end
  
     %udate the new codebooks
-    switch(mtype)
+    switch(alg)
         case 'VORONOI'
             %% Generate Voronoi Set
             % Source: Fast Evolutionary Learning with Batch-Type Self-Organizing Maps
@@ -28,7 +28,7 @@ function codebook = update_codebooks(varargin)
             
         case 'ONLINE' 
             %% Online SOM update
-            codebook = codebook - (h*ones(1,size(Dx,2))).*Dx;
+            codebook = codebook - (h*ones(1,size(Dcn,2))).*Dcn;
             
         case 'BATCH'
             %% Batch SOM update

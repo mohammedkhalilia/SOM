@@ -35,38 +35,27 @@ function output=som(input)
 % [1] T. Kohonen, “The self-organizing map,” Neurocomputing, 1998.
 % [2] Hasenfuss, A. & Hammer, B. Relational topographic maps. Advances in Intelligent Data
 %    Analysis VII (2007). at <http://www.springerlink.com/index/D0664R20V2L83MX5.pdf>
-
-    %% Initializations  
-    munits = prod(input.mapdim);
     
     % Initialize codebook/weights
     codebook = init_codebooks(input.data,input.mapdim,input.weightsInitFun);
-    coords = node_coords(input.mapdim);
-    nodeDist = coord_dist(munits,coords);
-    qe = zeros(1,input.maxIter);
-    te = qe;
-    cost = qe;
+    coords = node_coords(input.dim);
+    nodeDist = squareform(pdist(coords,'euclidean'));
     
     %% Iterate
     for iter=1:input.maxIter      
-        [codebook u bmu hu h m Dx cost(iter)] = som_step(input, codebook, iter, nodeDist);
-        fprintf('Iteration %d, obj fun = %f\n',iter, cost(iter));    
+        [codebook u bmu Dcn cost] = som_step(input, codebook, iter, nodeDist);
+        fprintf('Iteration %d, obj fun = %f\n',iter, cost);    
     end
 
-    D = node_pairwise_dist(input.alg,codebook,input.data);
-    [umatrix uheight] = som_umatrix(input.mapdim,D);
+    Dcc = node_dist(input.alg,codebook,input.data);
+    [umatrix uheight] = som_umatrix(input.mapdim,Dcc);
     
     %% Generate output structure
     output = struct('config',input,...
                     'codebook',codebook,...
-                    'codebookDist',D,...
-                    'vis',struct('umatrix',umatrix,'uheight',uheight),...
+                    'Dcc',Dcc,...
+                    'Dcn',Dcn,...
+                    'visual',struct('umatrix',umatrix,'uheight',uheight),...
                     'u',u,...
-                    'bmu',bmu,...
-                    'hu',hu,...
-                    'h',h,...
-                    'Dx',Dx,...
-                    'fuzzifier',m,...
-                    'cost',cost,...
-                    'date',datestr(now, 'mmmm dd, yyyy HH:MM AM'));
+                    'bmu',bmu);
 end
