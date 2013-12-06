@@ -13,7 +13,8 @@ function output=som(input)
 %   RELATIONAL  - use relational SOM with relational data. When you do not
 %                 have the feature vectors instead you have the dissimilatities 
 %                 among objects in a relational data matrix D (see ref. [2])
-%   RELATIONALFUZZY - a combination of the RELATIONAL SOM and FUZZY BATCH SOM
+%   RELATIONALFUZZY - a combination of the RELATIONAL SOM and FUZZY BATCH
+%                 SOM (see ref. [3])
 %
 % Usage: output = som(input) where input is a structure with the following fields
 %
@@ -35,6 +36,9 @@ function output=som(input)
 % [1] T. Kohonen, “The self-organizing map,” Neurocomputing, 1998.
 % [2] Hasenfuss, A. & Hammer, B. Relational topographic maps. Advances in Intelligent Data
 %    Analysis VII (2007). at <http://www.springerlink.com/index/D0664R20V2L83MX5.pdf>
+% [3] Khalilia, M. & Popescu, M. Fuzzy relational self-organizing maps. 
+%   in 2012 IEEE International Conference on Fuzzy Systems 1–6 (IEEE, 2012). 
+%   doi:10.1109/FUZZ-IEEE.2012.6250833
     
     % Initialize codebook/weights
     codebook = init_codebooks(input.data,input.mapdim,input.weightsInitFun);

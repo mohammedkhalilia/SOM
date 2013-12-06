@@ -20,7 +20,7 @@ algorithms all derived from the original Kohonen network. The 5
                  have the feature vectors instead you have the dissimilatities 
                  among objects in a relational data matrix D (see ref. [2])
                  
-   `RELATIONALFUZZY` - a combination of the RELATIONAL SOM and FUZZY BATCH SOM
+   `RELATIONALFUZZY` - a combination of the RELATIONAL SOM and FUZZY BATCH SOM (see ref. [3])
 
 SOM Configurations
 ----------------------------------
@@ -47,5 +47,6 @@ SOM Configurations
 References
 ----------------------------------
 1. T. Kohonen, “The self-organizing map,” Neurocomputing, 1998.
-2. Hasenfuss, A. & Hammer, B. Relational topographic maps. Advances in Intelligent Data
-    Analysis VII (2007). at <http://www.springerlink.com/index/D0664R20V2L83MX5.pdf>
+2. Hasenfuss, A. & Hammer, B. Relational topographic maps. Advances in Intelligent Data Analysis VII (2007). at <http://www.springerlink.com/index/D0664R20V2L83MX5.pdf>
+3. Khalilia, M. & Popescu, M. Fuzzy relational self-organizing maps. in 2012 IEEE International Conference on Fuzzy Systems 1–6 (IEEE, 2012). doi:10.1109/FUZZ-IEEE.2012.6250833
+4. Khalilia, M. and Popescu, M. "Topology Preservation in Fuzzy Self-Organizing Maps". Adv. Trends Soft Comput. (2014).
