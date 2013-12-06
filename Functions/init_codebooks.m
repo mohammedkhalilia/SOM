@@ -8,9 +8,9 @@ function [codebook map] = init_codebooks(x, mapdim, initfun)
     map = repmat(struct('x',0,'y',0),K,J);
     
     switch(initfun)
-        case 'random'
+        case 1
             codebook = rand(K*J,d);
-        case 'randompatterns'
+        case 2
             randIdx = randperm(n)' * ones(1,ceil((K*J)/n));
             codebook = x(randIdx(1:K*J),:);
     end

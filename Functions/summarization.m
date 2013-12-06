@@ -1,5 +1,5 @@
-function [region fig] = summarization(map, config, dataset)
-    coords = node_coords(config.mapdim);
+function [region fig] = summarization(map, dataset)
+    coords = node_coords(map.config.mapdim);
     
     %this hardens the memberships and assigned a single neuron to every
     %object
@@ -11,7 +11,7 @@ function [region fig] = summarization(map, config, dataset)
     [~,neuron2object] = max(map.u,[],2);
     
     %track which neuron belongs to which region
-    neuron2region = zeros(prod(config.mapdim),1);
+    neuron2region = zeros(prod(map.config.mapdim),1);
     
     WS = watershed(map.vis.uheight);
     regionInd = unique(WS);
@@ -71,7 +71,7 @@ function [region fig] = summarization(map, config, dataset)
                 %for crisp SOM we do not have representives for every
                 %neurons since the u{ik} = {0,1} so all objects with
                 %membership 1 are representitive of that neuron
-                if strcmp(config.mode,'frbsom')
+                if strcmp(map.config.alg,'RELATIONALFUZZY')
                     reps = neuron2object(neuronInds);
                 else
                     reps = region(rid).Objects;
@@ -79,7 +79,7 @@ function [region fig] = summarization(map, config, dataset)
                 
                 %get the patient with the smallest distance to all other
                 %patients in that region
-                [~,s] = min(sum(config.data(reps,reps)));
+                [~,s] = min(sum(map.config.data(reps,reps)));
                 patient = dataset.extra(reps(s));
                 region(rid).Label = patient;
                 
@@ -146,7 +146,7 @@ function [region fig] = summarization(map, config, dataset)
                 %for crisp SOM we do not have representives for every
                 %neurons since the u{ik} = {0,1} so all objects with
                 %membership 1 are representitive of that neuron
-                if strcmp(config.mode,'frbsom') || strcmp(config.mode,'fbsom')
+                if strcmp(map.config.mode,'RELATIONALFUZZY') || strcmp(map.config.mode,'FUZZYBATCH')
                     reps = neuron2object(neuronInds);
                 else
                     reps = region(rid).Objects;
@@ -191,7 +191,7 @@ function [region fig] = summarization(map, config, dataset)
                 %for crisp SOM we do not have representives for every
                 %neurons since the u{ik} = {0,1} so all objects with
                 %membership 1 are representitive of that neuron
-                if strcmp(config.mode,'frbsom') || strcmp(config.mode,'fbsom')
+                if strcmp(map.config.alg,'RELATIONALFUZZY') || strcmp(map.config.mode,'FUZZYBATCH')
                     reps = neuron2object(neuronInds);
                 else
                     reps = region(rid).Objects;
@@ -225,7 +225,7 @@ function [region fig] = summarization(map, config, dataset)
     end
     
     %*************************IMPORTANT************************************
-    % Carp, what about boundary neurons? they also have points
+    % What about boundary neurons? they also have points
     % associated with them, otherwise the total number of objects
     % represented in the regions may not match the same number of
     % objects in the dataset

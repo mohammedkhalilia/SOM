@@ -7,7 +7,7 @@ function codebook = update_codebooks(varargin)
  
     %udate the new codebooks
     switch(mtype)
-        case 'voronoi_set'
+        case 'VORONOI'
             %% Generate Voronoi Set
             % Source: Fast Evolutionary Learning with Batch-Type Self-Organizing Maps
             % Note: this will display the neurons in 2D, thus this will not
@@ -26,11 +26,11 @@ function codebook = update_codebooks(varargin)
             nonzero = find(A > 0);
             codebook(nonzero) = S(nonzero)./A(nonzero);
             
-        case 'online' 
+        case 'ONLINE' 
             %% Online SOM update
             codebook = codebook - (h*ones(1,size(Dx,2))).*Dx;
             
-        case 'bsom'
+        case 'BATCH'
             %% Batch SOM update
             codebook = zeros(size(h,1),size(x,2));   
             S = h*(u*x);
@@ -38,25 +38,19 @@ function codebook = update_codebooks(varargin)
             nonzero = find(A > 0);
             codebook(nonzero) = S(nonzero)./A(nonzero);
            
-        case 'fbsom'
+        case 'FUZZYBATCH'
             %% Fuzzy batch SOM update
             codebook = zeros(size(h,1),size(x,2));
             S = (h.^m)*(u.^m*x);
             A = (h.^m)*(u.^m*~isnan(x));
             nonzero = find(A > 0);
-            codebook(nonzero) = S(nonzero)./A(nonzero);
+            codebook(nonzero) = S(nonzero)./A(nonzero);      
             
-        case 'fuzzymediods'
-            %% Fuzzy k-mediods SOM update
-            q = (u.^m) * D;
-            [~, idx] = min(q,[],2);
-            codebook = D(idx,:);          
-            
-        case 'rbsom'
+        case 'RELATIONAL'
             %% Relational batch SOM update
             codebook = h(:,bmu)./(sum(h(:,bmu),2)*ones(1,length(bmu)));
 
-        case 'frbsom'
+        case 'RELATIONALFUZZY'
             %% Fuzzy relational batch SOM update   
             codebook = (h.^m) * (u.^m);
             S = sum(codebook,2)*ones(1,size(u,2));

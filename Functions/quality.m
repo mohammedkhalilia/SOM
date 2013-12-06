@@ -31,7 +31,6 @@ function [qe te] = quality(u, Dx, mapdim, m)
             
     %Topographic Error (Same for Fuzzy and Crisp cases)
     if m > 1
-        %te = fuzzyTopographicError(mapdim, u);
         [~, idx] = sort(u,1);
         idx = sub2ind(size(nodeDist), idx(1,:),idx(2,:));
         te = 1-nodeDist(idx);

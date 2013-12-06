@@ -53,7 +53,7 @@ function output=som(input)
         fprintf('Iteration %d, obj fun = %f\n',iter, cost(iter));    
     end
 
-    D = node_pairwise_dist(input.alg,codebook,input.data);
+    D = node_pairwise_dist(input.datatype,codebook,input.data);
     [umatrix uheight] = som_umatrix(input.mapdim,D);
     
     %% Generate output structure

@@ -1,6 +1,7 @@
-function D = node_pairwise_dist(type,w,R)
-    switch(type)
-        case 'relational'
+function D = node_pairwise_dist(alg,w,R)
+    switch(alg)
+        case 'RELATIONAL'
+        case 'RELATIONALFUZZY'
             c = size(w,1);
             D = zeros(c);
             t2 = diag(0.5*w*R*w');
@@ -14,7 +15,9 @@ function D = node_pairwise_dist(type,w,R)
         case 'relationalpdist'
             D = pdist(w,@relational_dist, R);
             
-        otherwise
+        case 'ONLINE'
+        case 'BATCH'
+        case 'FUZZYBATCH'
             D = squareform(pdist(w,'euclidean'));
     end 
 end

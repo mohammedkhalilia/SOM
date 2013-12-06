@@ -13,8 +13,8 @@ function [codebook u bmu hu h m Dx cost] = som_step(input, codebook, iter, nodeD
         m=1;
     end
     
-    switch(input.mode)
-        case 'online'
+    switch(input.alg)
+        case 'ONLINE'
             %% Online SOM case
             ri = ceil(n*rand);
             xi = x(ri,:);                     % pick one sample vector
@@ -24,9 +24,9 @@ function [codebook u bmu hu h m Dx cost] = som_step(input, codebook, iter, nodeD
             u = sparse(bmu,1:n,1,prod(input.mapdim),n);
             l = input.lrate(1) * (input.lrate(2)/input.lrate(1))^(iter/trainLen);
             h = l * exp(-nodeDist/(2*r^2)); 
-            codebook = update_codebooks('mtype','online','h',h,'Dx',Dx,'codebook',codebook);
+            codebook = update_codebooks('mtype',input.alg,'h',h,'Dx',Dx,'codebook',codebook);
                     
-        case 'bsom'
+        case 'BATCH'
             %% Batch SOM case
             for i=1:n
                 tmp = codebook - (x(i,:)'*ones(1,munits))';      
@@ -36,14 +36,14 @@ function [codebook u bmu hu h m Dx cost] = som_step(input, codebook, iter, nodeD
             [~, bmu] = min(Dx,[],1);        
             u = full(sparse(bmu,1:n,1,prod(input.mapdim),n));
             h = exp(-nodeDist/(2*r^2)); 
-            codebook = update_codebooks('mtype','bsom','h',h,'u',u,'x',x);
+            codebook = update_codebooks('mtype',input.alg,'h',h,'u',u,'x',x);
          
             % update the value of the objective function
             UD = u .* (h * Dx);
             cost = sum(UD(:));
             hu=0;
             
-        case 'fbsom'
+        case 'FUZZYBATCH'
             %% Fuzzy batch SOM case            
             for i=1:n
                 d = codebook - (x(i,:)'*ones(1,munits))';  
@@ -79,14 +79,14 @@ function [codebook u bmu hu h m Dx cost] = som_step(input, codebook, iter, nodeD
             u(:,zero) = 1/munits; 
             u(nonzero) = tmp(nonzero) ./ S(nonzero);
             
-            codebook = update_codebooks('mtype','fbsom','u',u,'h',h,'bmu',bmu,'m',m,'x',x);
+            codebook = update_codebooks('mtype',input.alg,'u',u,'h',h,'bmu',bmu,'m',m,'x',x);
 
             % update the value of the objective function  
             hu = (h.^m);% * (u.^m);     
             UD = (u.^m) .* (hu * Dx);
             cost = sum(UD(:));
             
-        case 'rbsom'
+        case 'RELATIONAL'
             %% Relational batch case
             
             for a=1:munits
@@ -97,7 +97,7 @@ function [codebook u bmu hu h m Dx cost] = som_step(input, codebook, iter, nodeD
             [~, bmu] = min(Dx,[],1);
             u = full(sparse(bmu,1:n,1,prod(input.mapdim),n));
             h = exp(-nodeDist/(2*r^2)); 
-            codebook = update_codebooks('mtype','rbsom','h',h,'bmu',bmu);
+            codebook = update_codebooks('mtype',input.alg,'h',h,'bmu',bmu);
             
             % update the value of the objective function
             hu = h * u;
@@ -105,7 +105,7 @@ function [codebook u bmu hu h m Dx cost] = som_step(input, codebook, iter, nodeD
             UD = sum(UD,2)./sum(hu,2);
             cost = sum(UD(:))/2;
             
-        case 'frbsom'
+        case 'RELATIONALFUZZY'
             %% Fuzzy relational batch case
             % update the dictance between all objects and the codebooks
             for a=1:munits
@@ -144,7 +144,7 @@ function [codebook u bmu hu h m Dx cost] = som_step(input, codebook, iter, nodeD
             u(nonzero) = tmp(nonzero) ./ S(nonzero);
             
             % updatde the coefficient
-            codebook = update_codebooks('mtype','frbsom','u',u,'h',h,'m',m,'D',x);
+            codebook = update_codebooks('mtype',input.alg,'u',u,'h',h,'m',m,'D',x);
             
             % update the value of the objective function
             hu = (h.^m) * (u.^m);      
