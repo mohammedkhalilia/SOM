@@ -22,7 +22,7 @@ algorithms all derived from the original Kohonen network. The 5
                  
    `RELATIONALFUZZY` - a combination of the RELATIONAL SOM and FUZZY BATCH SOM (see ref. [3])
 
-NOTE: this toolbox includes a function named summarization() that tried to summarize the results of SOM by addign a layer of labels on the map. This function is a work in progress and it still needs tweaking. Feel free to use it and modify it as you wish. Also, this function a built-in MATLAB function watershed() to segment the U-matrix and to identify the regions/clusters. watershed() is part of the image processing toolbox.
+NOTE: this toolbox includes a function named summarization() that attempts to summarize the results of SOM by adding a layer of labels on the map. This function is a work in progress and it still needs tweaking. Feel free to use it and modify it as you wish. Also, this function a built-in MATLAB function watershed() to segment the U-matrix and to identify the regions/clusters. watershed() is part of the image processing toolbox. Additionlly, summarizing SOM is problem specific. The function included in this toolbox is just an example on how to do it. 
 
 SOM Configurations
 ----------------------------------
