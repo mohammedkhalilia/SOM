@@ -33,6 +33,20 @@ function output=som(input)
 %                   2 = randomly select c rows from the data to initialize the
 %                  codebooks, where c is the number of neurons
 %
+% The output is a structure of the following fields:
+%   (assume  n = #patterns, c = #neurons, d = #dimensions)
+%
+% config    - this field contains the input structure to SOM
+% V         - c x d matrix containing codebook vectors/centers for objects
+%             SOM or c x n relational codebooks for relational SOM
+% U         - c x n fuzzy/crisp partition matrix
+% Dcc       - c x c matrix containing pairsewise dissimilarities among
+%             neurons (Euclidean distance or relational distance in d or n space)
+% Dcn       - c x n matrix of the distances between neurons and patterns
+% umatrix   - visual map that can be dsplayed in 2D or 3D to visualize the
+%             cluster boundaries
+% bmu       - the list of best matching units of patterns (for crisp SOM)
+%
 % [1] T. Kohonen, “The self-organizing map,” Neurocomputing, 1998.
 % [2] Hasenfuss, A. & Hammer, B. Relational topographic maps. Advances in Intelligent Data
 %    Analysis VII (2007). at <http://www.springerlink.com/index/D0664R20V2L83MX5.pdf>
@@ -41,25 +55,25 @@ function output=som(input)
 %   doi:10.1109/FUZZ-IEEE.2012.6250833
     
     % Initialize codebook/weights
-    codebook = init_codebooks(input.data,input.mapdim,input.weightsInitFun);
+    V = init_codebooks(input);
     coords = node_coords(input.dim);
     nodeDist = squareform(pdist(coords,'euclidean'));
     
     %% Iterate
     for iter=1:input.maxIter      
-        [codebook u bmu Dcn cost] = som_step(input, codebook, iter, nodeDist);
+        [V U bmu Dcn cost] = som_step(input, V, iter, nodeDist);
         fprintf('Iteration %d, obj fun = %f\n',iter, cost);    
     end
 
-    Dcc = node_dist(input.alg,codebook,input.data);
-    [umatrix uheight] = som_umatrix(input.mapdim,Dcc);
+    Dcc = node_dist(input.alg, V,input.data);
+    umatrix = som_umatrix(input.dim,Dcc);
     
     %% Generate output structure
     output = struct('config',input,...
-                    'codebook',codebook,...
+                    'V',V,...
+                    'U',U,...
                     'Dcc',Dcc,...
                     'Dcn',Dcn,...
-                    'visual',struct('umatrix',umatrix,'uheight',uheight),...
-                    'u',u,...
+                    'umatrix',umatrix,...
                     'bmu',bmu);
 end

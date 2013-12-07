@@ -1,16 +1,24 @@
-%**************************************************************************
-% Usage: umatrix(codebook,[10 10],'sum','',data)
-%       codebook: #nodes x #features
+function umatrix = som_umatrix(mapdim,Dcc)
+%%
+% Compute the U-matrix and U-height for visualizing the results of SOM.
+% U-matrix is displayed in 2D and U-height is displayed in 3D.
 %
-% Source: 
-%    http://www.uni-marburg.de/fb12/datenbionik/pdf/pubs/1990/UltschSiemon90
-%**************************************************************************
+% Usage: [umatrix uheight] = som_umatrix(mapdim,Dcc)
+% 
+% mapdim    - dimensions of the map
+% Dcc       - c x c matrix contaning pairwise distances among neurons
+% umatrix   - matrix having same dimenions as the SOM map where the value
+%             at every neuron coordinate is the sum of the distances between that
+%             neuron and its four immediate neighbors. For more details on
+%             the umatrix see ref. below.
+%
+% Clustering with SOM: U* C. A Ultsch (2005) Proc. Workshop on Self- Organizing Maps p. 75–82
+% Or this link
+% http://www.informatik.uni-marburg.de/~databionics/papers/Ultsch09U-Matrix.pdf
 
-function [umatrix uheight] = som_umatrix(mapdim,D)
     y = mapdim(1);
     x = mapdim(2);
-    umatrix = zeros(2*y - 1,2*x - 1);
-    uheight = zeros(y,x,4);
+    umatrix = zeros(y,x,4);
     
     for j=1:y
         for i=1:x
@@ -18,40 +26,25 @@ function [umatrix uheight] = som_umatrix(mapdim,D)
                     
             if(i > 1)
                 S2 = sub2ind(mapdim, j, i-1);
-                uheight(j,i,1) = D(S1,S2); 
+                umatrix(j,i,1) = Dcc(S1,S2); 
             end
 
             if(j > 1)
                 S2 = sub2ind(mapdim, j-1, i);
-                uheight(j,i,2) = D(S1,S2);
+                umatrix(j,i,2) = Dcc(S1,S2);
             end
 
             if i<x % horizontal
                 S2 = sub2ind(mapdim, j, i+1);
-                umatrix(2*j-1,2*i) = D(S1,S2);
-                uheight(j,i,3) = D(S1,S2);
+                umatrix(j,i,3) = Dcc(S1,S2);
             end 
 
             if j<y % vertical
                 S2 = sub2ind(mapdim, j+1, i);
-                umatrix(2*j,2*i-1) = D(S1,S2);
-                uheight(j,i,3) = D(S1,S2);
+                umatrix(j,i,3) = Dcc(S1,S2);
             end
-                    
-            if j<y & i<x % diagonals
-                S2 = sub2ind(mapdim, j+1, i+1);
-                dz1 = D(S1,S2);
-                        
-                S1 = sub2ind(mapdim, j, i+1);
-                S2 = sub2ind(mapdim, j+1, i);
-                dz2 = D(S1,S2);
-                        
-                umatrix(2*j,2*i) = (dz1 + dz2)/2;
-            end
-                    
-            umatrix(2*j - 1,2*i - 1) = sum(uheight(j,i,:));
         end
     end   
            
-    uheight = sum(uheight,3);
+    umatrix = sum(umatrix,3);
 end

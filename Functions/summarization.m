@@ -1,19 +1,37 @@
 function [region fig] = summarization(map, dataset)
+%%
+% Once SOM return the umatrix we can summarize the map by displaying labels
+% on the various regions on the map. That is assuming you have some
+% additional data associated with the patterns (labels, names, etc). The
+% summarization is problem specific and most likely you will have to write
+% your own code to summarize the map as your data is different that mine.
+% For instance, if your data represents patients and with every patient you
+% have an associated curve describing the patient behaviour with in the
+% last year, then your labels are actually curves. In other simple cases
+% your labels might categorical or numerical.
+%
+% This summarization depends on MATLAB built-in function, watershed(), in
+% order to segment the U-matrix image into regions and then for every
+% region decide what the label is. It also used the function regionprops()
+% that returns the properties of every region found using watershed(). The
+% propoerty we are most interested in is the Centroid of the region which
+% is where the label for that region is located.
+
     coords = node_coords(map.config.dim);
     
     %this hardens the memberships and assigned a single neuron to every
     %object
-    [~,object2neuron] = max(map.u);
+    [~,object2neuron] = max(map.U);
     
     %for every neuron find the objects with the highest membership.
     %Basically, we are finding the representive object for the neuron which
     %is the object with the highest membership or coefficient
-    [~,neuron2object] = max(map.u,[],2);
+    [~,neuron2object] = max(map.U,[],2);
     
     %track which neuron belongs to which region
     neuron2region = zeros(prod(map.config.dim),1);
     
-    WS = watershed(map.visual.uheight);
+    WS = watershed(map.umatrix);
     regionInd = unique(WS);
     regionInd = regionInd(2:end);
     region = regionprops(WS);
@@ -22,7 +40,7 @@ function [region fig] = summarization(map, dataset)
     %problem once we annotate the map with labels. We fix this issue using
     %flipud function
     %imagesc(flipud(1-map.vis.uheight));
-    fig = imagesc(1-map.visual.uheight);
+    fig = imagesc(1-map.umatrix);
     colormap(gray(256));
     set(gca,'YDir','normal');
     

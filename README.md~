@@ -35,9 +35,7 @@ SOM Configurations
  
  `radius`         - array of two elements indicating the start and end of the SOM
                   neighborhood radius
-
- `learningRate`   - array of two elements indicating the start and end learning rate used by the ONLINE algorithm
-
+                  
  `fuzzifier`      - array of two elements indicating the start and end values of
                   the fuzzifier
                   

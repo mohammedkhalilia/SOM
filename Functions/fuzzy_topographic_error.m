@@ -1,8 +1,8 @@
 function [te mapTmp] = fuzzy_topographic_error(map)
-    u = map.u;
+    U = map.U;
     y = map.config.dim(1);
     x = map.config.dim(2);
-    [~, n] = size(u);
+    n = size(U,2);
     mapTmp = zeros(y,x,n);
     te = 0;
     
@@ -14,7 +14,7 @@ function [te mapTmp] = fuzzy_topographic_error(map)
         for i=1:x
             S1 = sub2ind(map.config.dim, j, i);
             neighbors = neuron_neighbors(map.config.dim, j,i);
-            temp = abs(u(neighbors,:) - (ones(length(neighbors),1) * u(S1,:)));
+            temp = abs(U(neighbors,:) - (ones(length(neighbors),1) * U(S1,:)));
             mapTmp(j,i,:) = sum(temp);
         end  
     end

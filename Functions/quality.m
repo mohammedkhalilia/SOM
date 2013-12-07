@@ -19,22 +19,22 @@ function [qe te] = quality(map)
 
     coords = node_coords(map.config.dim);
     nodeDist = squareform(pdist(coords,'euclidean'));
-    u = map.u;
+    U = map.U;
     Dcn = map.Dcn;
     
     % Quantization error (QE)
     if isfield(map.config,'fuzzifier')
         m = map.config.fuzzifier(2);
-        UD = (u.^m) .* Dcn; 
+        UD = (U.^m) .* Dcn; 
     else
-        UD = u.*Dcn; 
+        UD = U.*Dcn; 
     end
             
-    qe = sum(UD(:))/size(u,2);
+    qe = sum(UD(:))/size(U,2);
             
     %Topographic Error (Same for Fuzzy and Crisp cases)
     if m > 1
-        [~, idx] = sort(u,1);
+        [~, idx] = sort(U,1);
         idx = sub2ind(size(nodeDist), idx(1,:),idx(2,:));
         te = 1-nodeDist(idx);
         te(te ~= 0) = 1;

@@ -1,7 +1,9 @@
-%**************************************************************************
-%
-%**************************************************************************
 function coords = node_coords(mapdim)
+%%
+% Given a map with dimension mapdim compute a c x 2 matrix, where every row
+% corresponds to the coordinates of every neuron, where c is the number of
+% neurons in the map
+
     coords = zeros(prod(mapdim),2);
     coords(:,1) = repmat([0:mapdim(1)-1]',mapdim(2),1);
     startpos = 1;
