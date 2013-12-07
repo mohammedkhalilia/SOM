@@ -1,5 +1,7 @@
 function [region fig] = summarization(map, dataset)
 %%
+% THIS IS SCRIPT IS WORK IN PROGRESS
+%
 % Once SOM return the umatrix we can summarize the map by displaying labels
 % on the various regions on the map. That is assuming you have some
 % additional data associated with the patterns (labels, names, etc). The
@@ -20,7 +22,11 @@ function [region fig] = summarization(map, dataset)
     coords = node_coords(map.config.dim);
     
     %this hardens the memberships and assigned a single neuron to every
-    %object
+    %object. This will tell us which neuron an object belongs to. Or as it
+    %is also called the best matching unit (BMU), the same as 
+    %   object2neuron = map.bmu;
+    %
+    %object2neuron is an array of 1 x n
     [~,object2neuron] = max(map.U);
     
     %for every neuron find the objects with the highest membership.
@@ -34,12 +40,13 @@ function [region fig] = summarization(map, dataset)
     WS = watershed(map.umatrix);
     regionInd = unique(WS);
     regionInd = regionInd(2:end);
+    
+    %get region properties, we are mostly intereted in the centroid of the
+    %region
     region = regionprops(WS);
     
     %imagesc makes the y-axis run from top to bottom, which will cause a
-    %problem once we annotate the map with labels. We fix this issue using
-    %flipud function
-    %imagesc(flipud(1-map.vis.uheight));
+    %problem once we annotate the map with labels.
     fig = imagesc(1-map.umatrix);
     colormap(gray(256));
     set(gca,'YDir','normal');
@@ -183,16 +190,20 @@ function [region fig] = summarization(map, dataset)
                 end
             end
             
-       otherwise
+        otherwise
+           
+            %for every regoin found using watershed
             for r=1:length(regionInd)
-                rid = regionInd(r);
+                
+                %region index/Id
+                rid = regionInd(r); 
                 
                 %get the indicies for the neurons representing this region 
                 neuronInds = find(WS == rid);
                 
                 %save the coordinates of the neurons belonging to that
                 %region
-                region(rid).Neurons = coords(neuronInds,:);
+                region(rid).neurons = coords(neuronInds,:);
                 
                 %assign the region ID to that neuron
                 neuron2region(neuronInds) = rid;
@@ -200,8 +211,11 @@ function [region fig] = summarization(map, dataset)
                 %find the data points belongning to that region, we use the
                 %maximum value in the membership matrix to determine which
                 %point belongs to which neurons in that region
-                region(rid).Objects = find(ismember(object2neuron, neuronInds)==1);
-                objectsFound = [objectsFound region(rid).Objects];
+                %
+                %we do that by intersecting the the array of BMU with the
+                %array contaning the neurons in that region
+                region(rid).objects = find(ismember(object2neuron, neuronInds)==1);
+                objectsFound = [objectsFound region(rid).objects];
        
                 %for every neuron get the representive object
                 %it is the object with the highest cooefficient
@@ -212,7 +226,7 @@ function [region fig] = summarization(map, dataset)
                 if strcmp(map.config.alg,'RELATIONALFUZZY') || strcmp(map.config.alg,'FUZZYBATCH')
                     reps = neuron2object(neuronInds);
                 else
-                    reps = region(rid).Objects;
+                    reps = region(rid).objects;
                 end
                 
                 regionTitle = sprintf('R%d',rid);

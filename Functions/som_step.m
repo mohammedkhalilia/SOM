@@ -96,6 +96,9 @@ function [V U bmu Dcn cost] = som_step(input, V, iter, nodeDist)
             UD = (U.^m) .* (hu * Dcn);
             cost = sum(UD(:));
             
+            %best matching unit, if you do not want memberships
+            [~,bmu] = max(U);
+            
         case 'RELATIONAL'
             %% Relational batch case
             
@@ -158,6 +161,9 @@ function [V U bmu Dcn cost] = som_step(input, V, iter, nodeDist)
             UD = hu .* (hu * x);
             UD = sum(UD,2)./(2*sum(hu,2));
             cost = sum(UD(:));
+            
+            %best matching unit, if you do not want memberships
+            [~,bmu] = max(U);
     end
 
 end

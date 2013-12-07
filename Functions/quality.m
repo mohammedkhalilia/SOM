@@ -33,14 +33,14 @@ function [qe te] = quality(map)
     qe = sum(UD(:))/size(U,2);
             
     %Topographic Error (Same for Fuzzy and Crisp cases)
-    if m > 1
+    if isfield(map.config,'fuzzifier')
         [~, idx] = sort(U,1);
         idx = sub2ind(size(nodeDist), idx(1,:),idx(2,:));
         te = 1-nodeDist(idx);
         te(te ~= 0) = 1;
         te = sum(te)/size(Dcn,2);
     else
-        [~, idx] = sort(Dx,1);
+        [~, idx] = sort(Dcn,1);
         idx = sub2ind(size(nodeDist), idx(1,:),idx(2,:));
         te = 1-nodeDist(idx);
         te(te ~= 0) = 1;
