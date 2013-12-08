@@ -26,28 +26,29 @@ NOTE: this toolbox includes a function named summarization() that attempts to su
 
 SOM Configurations
 ----------------------------------
- `data`           - either the feature vector data organized in a n x d matrix or a
-                  dissimilarity data in matrix n x n
+
+### Input
+Input to SOM is a structure with the following fields:
+
+ `data`           - either the feature vector data organized in a _n_ x _d_ matrix or a dissimilarity data in matrix _n_ x _n_
                   
- `alg`            - which algorithm to use, which of course depends on the type of
-                  data you provided. The alg can take any of the 5 different algorithms
-                  mentioned above
+ `alg`            - which algorithm to use, which of course depends on the type of data you provided. The alg can take any of the 5 different algorithms mentioned above
                   
  `maxIter`        - maximum number of iterations SOM will run before it terminates
  
- `radius`         - array of two elements indicating the start and end of the SOM
-                  neighborhood radius
+ `radius`         - array of two elements indicating the start and end of the SOM neighborhood radius
 
  `learningRate`   - array of two elements indicating the start and end learning rate used by the ONLINE algorithm
 
- `fuzzifier`      - array of two elements indicating the start and end values of
-                  the fuzzifier
+ `fuzzifier`      - array of two elements indicating the start and end values of the fuzzifier
                   
- `weightInitType` - indicates the type of weight/codebook initialization
+ `weightInitType` - indicates the type of weight/codebook _V_ initialization
 
 > 1 = random initialization
 
-> 2 = randomly select c rows from the data to initialize the codebooks, where c is the number of neurons</p>
+> 2 = randomly select _c_ rows from the data to initialize the codebooks, where _c_ is the number of neurons</p>
+
+### Output
 
 The datasets are prepared and configured in the script som_dataset.m for convenience, but it is not required that you use that script. Instead you can directly supply the data to the SOM input struct field data. 
 
