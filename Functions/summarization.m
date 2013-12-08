@@ -29,11 +29,6 @@ function [region fig] = summarization(map, dataset)
     %object2neuron is an array of 1 x n
     [~,object2neuron] = max(map.U);
     
-    %for every neuron find the objects with the highest membership.
-    %Basically, we are finding the representive object for the neuron which
-    %is the object with the highest membership or coefficient
-    [~,neuron2object] = max(map.U,[],2);
-    
     %track which neuron belongs to which region
     neuron2region = zeros(prod(map.config.dim),1);
     
@@ -201,8 +196,7 @@ function [region fig] = summarization(map, dataset)
                 %get the indicies for the neurons representing this region 
                 neuronInds = find(WS == rid);
                 
-                %save the coordinates of the neurons belonging to that
-                %region
+                %save the coordinates of the neurons belonging to that region
                 region(rid).neurons = coords(neuronInds,:);
                 
                 %assign the region ID to that neuron
@@ -217,59 +211,48 @@ function [region fig] = summarization(map, dataset)
                 region(rid).objects = find(ismember(object2neuron, neuronInds)==1);
                 objectsFound = [objectsFound region(rid).objects];
        
-                %for every neuron get the representive object
-                %it is the object with the highest cooefficient
-                %
-                %for crisp SOM we do not have representives for every
-                %neurons since the u{ik} = {0,1} so all objects with
-                %membership 1 are representitive of that neuron
-                if strcmp(map.config.alg,'RELATIONALFUZZY') || strcmp(map.config.alg,'FUZZYBATCH')
-                    reps = neuron2object(neuronInds);
-                else
-                    reps = region(rid).objects;
-                end
-                
-                regionTitle = sprintf('R%d',rid);
+                %get the representitive objects/patterns for this region
+                reps = find(ismember(map.bmu,neuronInds) == 1);
                 
                 %if labels are provided for every object
-                if isfield(dataset,'u') && ~isempty(dataset.u)
+                if isfield(dataset,'labels')
                     %get the label for every representivitive object
-                    [~,c] = max(dataset.u(:,reps));
+                    [uniqueLabels,~,idx] = unique(dataset.labels(reps));
                     
-                    %do a histogram for the labels found
-                    [N X] = hist(c);
-                    X = round(X);
+                    if ~isempty(idx)
+                        %do a histogram for the labels found
+                        counts = accumarray(idx(:),1);
+                        [~,labelIdx] = max(counts);
+
+                        %get the label name
+                        region(rid).label = uniqueLabels{labelIdx};
+
+                        regionTitle = sprintf('R%d:%s',rid,region(rid).label);
+                    end
                     
-                    %find the label with the highest frequency among
-                    %objects of that region
-                    [~,labelInd] = max(N);
-                
-                    %get the label name
-                    label = dataset.labels{X(labelInd)};
-                    regionTitle = sprintf('R%d:%s',rid,label);
-                    
-                    region(rid).Label = label;
+                    %add label for this region at the centroid
+                    text(region(rid).Centroid(1),region(rid).Centroid(2),regionTitle,'FontWeight','bold');
                 end
-                
-                %add label for this region at the centroid
-                text(region(rid).Centroid(1),region(rid).Centroid(2),regionTitle,'FontWeight','bold');
             end
     end
     
     %*************************IMPORTANT************************************
-    % What about boundary neurons? they also have points
+    % What about boundary neurons? they also may have objects/patterns
     % associated with them, otherwise the total number of objects
     % represented in the regions may not match the same number of
-    % objects in the dataset
+    % objects in the dataset if you choose to ignore the borders.
     %**********************************************************************
+    
+    %get the objects thet are left behind
     rp = find(ismember(1:length(map.bmu),objectsFound) == 0);
            
     %pairwise distances among neurons
     d = map.Dcc;
-           
+        
+    %neurons that are already assigned to a specific region
     assignedNeurons = find(neuron2region > 0);
            
-    %for every remaning patient assigned to a neuron located on the
+    %for every remaning pattern assigned to a neuron located on the
     %boundary
     for p=1:length(rp)
         %find that neuron index 
@@ -281,8 +264,7 @@ function [region fig] = summarization(map, dataset)
         %target region
         rid = neuron2region(assignedNeurons(idx));
                 
-        %add that object/patient the region rid
-        region(rid).Objects = [region(rid).Objects rp(p)];
+        %add that object/pattern to the region
+        region(rid).objects = [region(rid).objects rp(p)];
     end
 end
-

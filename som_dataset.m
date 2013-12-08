@@ -7,15 +7,13 @@ i = 1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if sum(ismember(datasetNames,'cvr')) == 1
     data = csvread('Data/CongressionalVotingRecords.csv');
-    labels = data(:,1);
     data = data(:,2:end);
 
     dataset(i).name = 'Congressional Voting Records'; 
     dataset(i).objectData = data;
     dataset(i).relationalData = squareform(pdist(data,'euclidean'));
-    dataset(i).labels = {'R' 'D'};
+    dataset(i).labels = [repmat({'Republican'},1,168) repmat({'Democrat'},1,267)];
     dataset(i).mapsize = [20 20];
-    dataset(i).u = sparse(labels,1:size(data,1),1,2,size(data,1));
     i = i+1;
 end
 
@@ -30,9 +28,8 @@ if sum(ismember(datasetNames,'chainlink')) == 1
     dataset(i).name = 'Chain Link Data Set'; 
     dataset(i).objectData = data;
     dataset(i).relationalData = squareform(pdist(data,'euclidean'));
-    dataset(i).labels = {'1' '2'};
+    dataset(i).labels = cellstr(num2str(labels));
     dataset(i).mapsize = [20 20];
-    dataset(i).u = sparse(labels,1:size(data,1),1,2,size(data,1));
     i= i+1;
 end
 
@@ -47,9 +44,8 @@ if sum(ismember(datasetNames,'atom')) == 1
     dataset(i).name = 'Atom Data Set'; 
     dataset(i).objectData = data;
     dataset(i).relationalData = squareform(pdist(data,'euclidean'));
-    dataset(i).labels = {'1' '2'};
+    dataset(i).labels = cellstr(num2str(labels));
     dataset(i).mapsize = [20 20];
-    dataset(i).u = sparse(labels,1:size(data,1),1,2,size(data,1));
     i = i+1;
 end
 
@@ -64,9 +60,8 @@ if sum(ismember(datasetNames,'golfball')) == 1
     dataset(i).name = 'Golf Ball'; 
     dataset(i).objectData = data;
     dataset(i).relationalData = squareform(pdist(data,'euclidean'));
-    dataset(i).labels = {'1'};
+    dataset(i).labels = cellstr(num2str(labels));
     dataset(i).mapsize = [20 20];
-    dataset(i).u = sparse(labels,1:size(data,1),1,1,size(data,1));
     i = i+1;
 end
 
@@ -81,9 +76,8 @@ if sum(ismember(datasetNames,'engytime')) == 1
     dataset(i).name = 'Engy Time'; 
     dataset(i).objectData = data;
     dataset(i).relationalData = squareform(pdist(data,'euclidean'));
-    dataset(i).labels = {'1' '2'};
+    dataset(i).labels = cellstr(num2str(labels));
     dataset(i).mapsize = [20 20];
-    dataset(i).u = sparse(labels,1:size(data,1),1,2,size(data,1));
     i = i+1;
 end
 
@@ -98,9 +92,8 @@ if sum(ismember(datasetNames,'hepta')) == 1
     dataset(i).name = 'Hepta'; 
     dataset(i).objectData = data;
     dataset(i).relationalData = squareform(pdist(data,'euclidean'));
-    dataset(i).labels = {'1' '2' '3' '4' '5' '6' '7'};
+    dataset(i).labels = cellstr(num2str(labels));
     dataset(i).mapsize = [20 20];
-    dataset(i).u = sparse(labels,1:size(data,1),1,7,size(data,1));
     i = i+1;
 end
 
@@ -115,9 +108,8 @@ if sum(ismember(datasetNames,'lsun')) == 1
     dataset(i).name = 'Lsun'; 
     dataset(i).objectData = data;
     dataset(i).relationalData = squareform(pdist(data,'euclidean'));
-    dataset(i).labels = {'1' '2' '3'};
+    dataset(i).labels = cellstr(num2str(labels));
     dataset(i).mapsize = [20 20];
-    dataset(i).u = sparse(labels,1:size(data,1),1,3,size(data,1));
     i = i+1;
 end
 
@@ -132,9 +124,8 @@ if sum(ismember(datasetNames,'target')) == 1
     dataset(i).name = 'Target'; 
     dataset(i).objectData = data;
     dataset(i).relationalData = squareform(pdist(data,'euclidean'));
-    dataset(i).labels = {'1' '2' '3' '4' '5' '6'};
+    dataset(i).labels = cellstr(num2str(labels));
     dataset(i).mapsize = [20 20];
-    dataset(i).u = sparse(labels,1:size(data,1),1,6,size(data,1));
     i = i+1;
 end
 
@@ -149,9 +140,8 @@ if sum(ismember(datasetNames,'tetra')) == 1
     dataset(i).name = 'Tetra'; 
     dataset(i).objectData = data;
     dataset(i).relationalData = squareform(pdist(data,'euclidean'));
-    dataset(i).labels = {'1' '2' '3' '4'};
+    dataset(i).labels = cellstr(num2str(labels));
     dataset(i).mapsize = [20 20];
-    dataset(i).u = sparse(labels,1:size(data,1),1,4,size(data,1));
     i = i+1;
 end
 
@@ -166,9 +156,8 @@ if sum(ismember(datasetNames,'twodiamonds')) == 1
     dataset(i).name = 'Two Diamonds'; 
     dataset(i).objectData = data;
     dataset(i).relationalData = squareform(pdist(data,'euclidean'));
-    dataset(i).labels = {'1' '2'};
+    dataset(i).labels = cellstr(num2str(labels));
     dataset(i).mapsize = [20 20];
-    dataset(i).u = sparse(labels,1:size(data,1),1,2,size(data,1));
     i = i+1;
 end
 
@@ -183,9 +172,8 @@ if sum(ismember(datasetNames,'wingnut')) == 1
     dataset(i).name = 'Wing Nut'; 
     dataset(i).objectData = data;
     dataset(i).relationalData = squareform(pdist(data,'euclidean'));
-    dataset(i).labels = {'1' '2'};
+    dataset(i).labels = cellstr(num2str(labels));
     dataset(i).mapsize = [20 20];
-    dataset(i).u = sparse(labels,1:size(data,1),1,2,size(data,1));
     i = i+1;
 end
 
@@ -209,9 +197,8 @@ if sum(ismember(datasetNames,'closelines')) == 1
     dataset(i).name = '3 Parallel Lines - Close - (300 points)'; 
     dataset(i).objectData = data;
     dataset(i).relationalData = squareform(pdist(data,'euclidean'));
-    dataset(i).labels = {'1' '2' '3'};
+    dataset(i).labels = cellstr(num2str(labels'));
     dataset(i).mapsize = [20 20];
-    dataset(i).u =  sparse(labels,[1:size(data,1)],1,3,size(data,1));
     i = i+1;
 end
 
@@ -235,29 +222,8 @@ if sum(ismember(datasetNames,'farlines')) == 1
     dataset(i).name = '3 Parallel Lines - Far - (300 points)'; 
     dataset(i).objectData = data;
     dataset(i).relationalData = squareform(pdist(data,'euclidean'));
-    dataset(i).labels = {'1' '2' '3'};
+    dataset(i).labels = cellstr(num2str(labels'));
     dataset(i).mapsize = [20 20];
-    dataset(i).u =  sparse(labels,[1:size(data,1)],1,3,size(data,1));
-    i = i+1;
-end
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Generate 3 Gaussian Clouds Well Separated - Vectorial - 6 points
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-if sum(ismember(datasetNames,'gauss6')) == 1
-    a=normrnd(repmat([1,1],2,1), 0.1);
-    b=normrnd(repmat([1,5],2,1), 0.1);
-    c=normrnd(repmat([4,3],2,1), 0.1);
-
-    data = [a;b;c];
-    labels = [1*ones(1,2) 2*ones(1,2) 3*ones(1,2)];
-
-    dataset(i).name = '3 Gaussian Clouds - Well Separated (6 points)'; 
-    dataset(i).objectData = data;
-    dataset(i).relationalData = squareform(pdist(data,'euclidean'));
-    dataset(i).labels = {'G1' 'G2' 'G3'};
-    dataset(i).mapsize = [20 20];
-    dataset(i).u =  sparse(labels,[1:size(data,1)],1,3,size(data,1));
     i = i+1;
 end
 
@@ -268,16 +234,13 @@ if sum(ismember(datasetNames,'ws3g')) == 1
     a=normrnd(repmat([1,1],500,1), 0.1);
     b=normrnd(repmat([1,5],500,1), 0.1);
     c=normrnd(repmat([4,3],500,1), 0.1);
-
     data = [a;b;c];
-    labels = [1*ones(1,500) 2*ones(1,500) 3*ones(1,500)];
 
     dataset(i).name = '3 Gaussian Clouds - Well Separated (1500 points)'; 
     dataset(i).objectData = data;
     dataset(i).relationalData = squareform(pdist(data,'euclidean'));
-    dataset(i).labels = {'G1' 'G2' 'G3'};
+    dataset(i).labels = [repmat({'G1'},1,500) repmat({'G2'},1,500) repmat({'G3'},1,500)];
     dataset(i).mapsize = [20 20];
-    dataset(i).u =  sparse(labels,[1:size(data,1)],1,3,size(data,1));
     i = i+1;
 end
 
@@ -288,16 +251,13 @@ if sum(ismember(datasetNames,'o3g')) == 1
     a=normrnd(repmat([1,1],500,1), 1);
     b=normrnd(repmat([1,5],500,1), 1);
     c=normrnd(repmat([4,3],500,1), 1);
-
     data = [a;b;c];
-    labels = [1*ones(1,500) 2*ones(1,500) 3*ones(1,500)];
 
     dataset(i).name = '3 Gaussian Clouds - Overlapping (1500 points)'; 
     dataset(i).objectData = data;
     dataset(i).relationalData = squareform(pdist(data,'euclidean'));
-    dataset(i).labels = {'G1' 'G2' 'G3'};
+    dataset(i).labels = [repmat({'G1'},1,500) repmat({'G2'},1,500) repmat({'G3'},1,500)];
     dataset(i).mapsize = [20 20];
-    dataset(i).u =  sparse(labels,[1:size(data,1)],1,3,size(data,1));
     i = i+1;
 end
 
@@ -305,16 +265,13 @@ end
 %% Iris Data - Vectorial
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if sum(ismember(datasetNames,'iris')) == 1
-    labels = [1*ones(1,50) 2*ones(1,50) 3*ones(1,50)];
     data = csvread('Data/iris.csv');
 
     dataset(i).name = 'Iris Data'; 
     dataset(i).objectData = data;
     dataset(i).relationalData = squareform(pdist(data,'euclidean'));
-    dataset(i).labels = {'IS' 'IV1' 'IV2'};
+    dataset(i).labels = [repmat({'Setosa'},1,500) repmat({'Versicolor'},1,500) repmat({'Virginica'},1,500)];
     dataset(i).mapsize = [11 6];
-    dataset(i).u =  sparse(labels,[1:size(data,1)],1,3,size(data,1));
-    i = i+1;
 end
 
 end
