@@ -142,6 +142,11 @@ The following example demonstrates how to use this toolbox with the BATCH versio
 	%dataset must have a field labels that is an array of labels for every pattern
 	figure;summarization(map, dataset);
 
+To run Fuzzy SOM for object just replace the first two SOM inputs to reflect that as follows
+
+	input.data              = dataset.objectData;
+	input.alg               = 'FUZZYBATCH';
+
 References
 ----------------------------------
 1. T. Kohonen, “The self-organizing map,” Neurocomputing, 1998.
