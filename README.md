@@ -45,10 +45,10 @@ SOM Configurations
                   
  `weightInitType` - indicates the type of weight/codebook initialization
 
-                   1 = random initialization
+                   <p>1 = random initialization
 
                    2 = randomly select c rows from the data to initialize the
-                  codebooks, where c is the number of neurons
+                  codebooks, where c is the number of neurons</p>
 
 The datasets are prepared and configured in the script som_dataset.m for convenience, but it is not required that you use that script. Instead you can directly supply the data to the SOM input struct field data. 
 
