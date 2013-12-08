@@ -48,6 +48,10 @@ SOM Configurations
                    2 = randomly select c rows from the data to initialize the
                   codebooks, where c is the number of neurons
 
+Example
+----------------------------------
+	
+
 References
 ----------------------------------
 1. T. Kohonen, “The self-organizing map,” Neurocomputing, 1998.
