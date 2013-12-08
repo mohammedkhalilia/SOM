@@ -49,6 +49,22 @@ Input to SOM is a structure with the following fields:
 > 2 = randomly select _c_ rows from the data to initialize the codebooks, where _c_ is the number of neurons</p>
 
 ### Output
+The output is also a structure with the following fields:
+
+ `config`    - this field contains the input structure to SOM described above
+
+ `V`         - _c_ x _d_ matrix containing codebook vectors/centers _V_ for objects SOM or _c_ x _n_ relational codebooks for relational SOM
+
+ `U`         - _c_ x _n_ fuzzy/crisp partition matrix. For crisp SOM U contains elements with 0 and 1 and elements indicates the best matching unit or winning neuron for the object
+
+ `Dcc`       - _c_ x _c_ matrix containing pairsewise dissimilarities among neurons (Euclidean distance or relational distance in _d_ or _n_ space)
+
+ `Dcn`       - _c_ x _n_ matrix of the distances between neurons and patterns
+
+ `umatrix`   - visual map that can be dsplayed in 2D or 3D to visualize the cluster boundaries
+
+ `bmu`       - the list of best matching units of patterns. For fuzzy SOM algorithms this corresponds to the hardened partition of _U_.
+
 
 The datasets are prepared and configured in the script som_dataset.m for convenience, but it is not required that you use that script. Instead you can directly supply the data to the SOM input struct field data. 
 
