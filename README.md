@@ -55,18 +55,18 @@ The output is also a structure with the following fields:
 
  `V`         - _c_ x _d_ matrix containing codebook vectors/centers _V_ for objects SOM or _c_ x _n_ relational codebooks for relational SOM
 
- `U`         - _c_ x _n_ fuzzy/crisp partition matrix. For crisp SOM U contains elements with 0 and 1 and elements indicates the best matching unit or winning neuron for the object
+ `U`         - _c_ x _n_ fuzzy/crisp partition matrix. For crisp SOM _U_ contains elements with 0 and 1 and elements indicates the best matching unit or winning neuron for the object
 
  `Dcc`       - _c_ x _c_ matrix containing pairsewise dissimilarities among neurons (Euclidean distance or relational distance in _d_ or _n_ space)
 
  `Dcn`       - _c_ x _n_ matrix of the distances between neurons and patterns
 
- `umatrix`   - visual map that can be dsplayed in 2D or 3D to visualize the cluster boundaries
+ `umatrix`   - visual map that can be displayed in 2D or 3D to visualize the cluster boundaries
 
- `bmu`       - the list of best matching units of patterns. For fuzzy SOM algorithms this corresponds to the hardened partition of _U_.
+ `bmu`       - the list of best matching units of patterns. For fuzzy SOM algorithms this corresponds to the hardened partition of _U_. 
 
 
-The datasets are prepared and configured in the script som_dataset.m for convenience, but it is not required that you use that script. Instead you can directly supply the data to the SOM input struct field data. 
+The datasets are prepared and configured in the script som_dataset.m for convenience, but it is not required that you use that script. Instead you can directly supply the data to the SOM input struct field data. However, storing the dataset information in a structure as it is in som_dataset.m is better specially when using summarization.m. This way you can define additional fields in the dataset structure that you can use in summarization.m.
 
 Example
 ----------------------------------
