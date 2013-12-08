@@ -68,15 +68,38 @@ The output is also a structure with the following fields:
 
 The datasets are prepared and configured in the script som_dataset.m for convenience, but it is not required that you use that script. Instead you can directly supply the data to the SOM input struct field data. However, storing the dataset information in a structure as it is in som_dataset.m is better specially when using summarization.m. This way you can define additional fields in the dataset structure that you can use in summarization.m.
 
-Example
+Examples SOM with Object Data
 ----------------------------------
+
+### Example. 1 SOM with Object Data
 The following example demonstrates how to use this toolbox with the BATCH version of SOM.
 
 	%load the dataset, see som_dataset.m for details
 	dataset = som_dataset({'ws3g'});
 
 	input.data              = dataset.objectData;
-	input.alg               = 'BATCH';
+	input.alg               = 'BATCH'; %can be replaced with ONLINE, 
+	input.maxIter           = 10;
+	input.dim               = dataset.mapsize;
+	input.radius            = [2 0.5];
+	input.weightsInitFun    = 1;
+        
+	map = som(input);
+
+	%compute the topographic and quantization errors
+	[qe te] = quality(map);
+        
+	%summarize the map
+	figure;summarization(map, dataset); %dataset must have a field labels that is an array of labels for every pattern
+
+### Example. 2 SOM with Relational Data
+The following example demonstrates how to use this toolbox with the BATCH version of SOM.
+
+	%load the dataset, see som_dataset.m for details
+	dataset = som_dataset({'ws3g'});
+
+	input.data              = dataset.relationalData;
+	input.alg               = 'RELATIONAL'; %can be replaced with ONLINE, 
 	input.maxIter           = 10;
 	input.dim               = dataset.mapsize;
 	input.radius            = [2 0.5];
@@ -87,11 +110,34 @@ The following example demonstrates how to use this toolbox with the BATCH versio
 	%compute the topographic and quantization errors
 	[qe te] = quality(map);
 
-	%compute the fuzzy topographic error (only for the fuzzy versions of SOM)
-	%[tef ~] = fuzzy_topographic_error(map);
-        
 	%summarize the map
-	figure;summarization(map, dataset);
+	figure;summarization(map, dataset); %dataset must have a field labels that is an array of labels for every pattern
+
+### Example. 3 Fuzzy SOM with Relational Data
+The following example demonstrates how to use this toolbox with the BATCH version of SOM.
+
+	%load the dataset, see som_dataset.m for details
+	dataset = som_dataset({'ws3g'});
+
+	input.data              = dataset.relationalData;
+	input.alg               = 'RELATIONALFUZZY';
+	input.maxIter           = 10;
+	input.dim               = dataset.mapsize;
+	input.radius            = [2 0.5];
+	input.fuzzifier 		= [1.1 2];  %% NOTE: for fuzzy algorithms we have to add the fuzzifier 
+	input.weightsInitFun    = 1;
+        
+	map = som(input);
+
+	%compute the topographic and quantization errors
+	[qe te] = quality(map);
+
+
+	%compute the fuzzy topographic error (only for the fuzzy versions of SOM)
+	tef = fuzzy_topographic_error(map);
+
+	%summarize the map
+	figure;summarization(map, dataset); %dataset must have a field labels that is an array of labels for every pattern
 
 References
 ----------------------------------
