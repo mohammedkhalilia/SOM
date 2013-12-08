@@ -90,7 +90,8 @@ The following example demonstrates how to use this toolbox with the BATCH versio
 	[qe te] = quality(map);
         
 	%summarize the map
-	figure;summarization(map, dataset); %dataset must have a field labels that is an array of labels for every pattern
+	%dataset must have a field labels that is an array of labels for every pattern
+	figure;summarization(map, dataset);
 
 ### Example. 2 SOM with Relational Data
 The following example demonstrates how to use this toolbox with the BATCH version of SOM.
@@ -111,7 +112,8 @@ The following example demonstrates how to use this toolbox with the BATCH versio
 	[qe te] = quality(map);
 
 	%summarize the map
-	figure;summarization(map, dataset); %dataset must have a field labels that is an array of labels for every pattern
+	%dataset must have a field labels that is an array of labels for every pattern
+	figure;summarization(map, dataset);
 
 ### Example. 3 Fuzzy SOM with Relational Data
 The following example demonstrates how to use this toolbox with the BATCH version of SOM.
@@ -137,7 +139,8 @@ The following example demonstrates how to use this toolbox with the BATCH versio
 	tef = fuzzy_topographic_error(map);
 
 	%summarize the map
-	figure;summarization(map, dataset); %dataset must have a field labels that is an array of labels for every pattern
+	%dataset must have a field labels that is an array of labels for every pattern
+	figure;summarization(map, dataset);
 
 References
 ----------------------------------
