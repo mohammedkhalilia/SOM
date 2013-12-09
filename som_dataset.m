@@ -3,6 +3,28 @@ function dataset = som_dataset(datasetNames)
 i = 1;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% go194_ju13_fms - Relational
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+if sum(ismember(datasetNames,'GPD194FMS')) == 1
+    load Data/go194_ju13_fms.mat;
+    load Data/data194.mat;
+    genes = cell(1,length(data194));
+    
+    for g=1:length(data194)
+       genes{g} = data194(g).gene; 
+    end
+    
+    dataset(i).name = 'GPD194';
+    dataset(i).relationalData = go194_ju13_fms;
+    
+    %MTMR=myotublarins, COL=collagen alpha, FGFR,TEK, TIE, RET=receptor precursor
+    dataset(i).labels = [repmat({'MTMR'},1,21) repmat({'RP'},1,87) repmat({'COL'},1,86)];
+    dataset(i).mapsize = [20 20];
+    dataset(i).extra = genes;
+    i = i+1;
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Congressional Voting Records
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if sum(ismember(datasetNames,'cvr')) == 1

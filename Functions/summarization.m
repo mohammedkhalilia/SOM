@@ -157,20 +157,11 @@ function [region fig] = summarization(map, dataset)
                 %find the data points belongning to that region, we use the
                 %maximum value in the membership matrix to determine which
                 %point belongs to which neurons in that region
-                region(rid).Objects = find(ismember(object2neuron, neuronInds)==1);
-                objectsFound = [objectsFound region(rid).Objects];
+                region(rid).objects = find(ismember(object2neuron, neuronInds)==1);
+                objectsFound = [objectsFound region(rid).objects];
        
-                %for every neuron get the representive object
-                %it is the object with the highest cooefficient
-                %
-                %for crisp SOM we do not have representives for every
-                %neurons since the u{ik} = {0,1} so all objects with
-                %membership 1 are representitive of that neuron
-                if strcmp(map.config.mode,'RELATIONALFUZZY') || strcmp(map.config.mode,'FUZZYBATCH')
-                    reps = neuron2object(neuronInds);
-                else
-                    reps = region(rid).Objects;
-                end
+                %get the representitive objects/patterns for this region
+                reps = find(ismember(map.bmu,neuronInds) == 1);
                 
                 genes = unique(dataset.extra(reps));
                 title = [];

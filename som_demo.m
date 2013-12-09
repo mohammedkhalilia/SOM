@@ -1,14 +1,14 @@
 clear;
 
 %load the dataset, see som_dataset.m for details
-dataset = som_dataset({'cvr'});
+dataset = som_dataset({'hepta'});
 
 input.data              = dataset.relationalData;
 input.alg               = 'RELATIONALFUZZY';
 input.maxIter           = 10;
 input.dim               = dataset.mapsize;
-input.radius            = [2 0.5];
-input.fuzzifier         = [1.1 1.5];
+input.radius            = [1 0.5];
+input.fuzzifier         = [1.01 2];
 input.weightsInitFun    = 1;
         
 map = som(input);
