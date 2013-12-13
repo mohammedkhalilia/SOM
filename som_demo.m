@@ -17,7 +17,7 @@ map = som(input);
 [qe te] = quality(map);
 
 %compute the fuzzy topographic error (only for the fuzzy versions of SOM)
-[tef ~] = fuzzy_topographic_error(map);
+tef = fuzzy_topographic_error(map, 1);
         
 %summarize the map
 figure;summarization(map, dataset);
