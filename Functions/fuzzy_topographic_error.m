@@ -1,4 +1,11 @@
 function varargout = fuzzy_topographic_error(map, type)
+%% 
+% Measure the quality of the fuzzy SOM
+%
+% 
+% Khalilia, M. and Popescu, M. "Topology Preservation in Fuzzy Self-Organizing Maps". 
+% Adv. Trends Soft Comput. (2014).
+
     U = map.U;
     [c, n] = size(U);
     
