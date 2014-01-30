@@ -23,14 +23,14 @@ function varargout = fuzzy_topographic_error(map, type)
             err = zeros(1,n);
 
             for k=1:n
-                tmp = zeros(1,c);
+                tmp = [];
 
                 for i=1:c
                     d = abs(U(i,k)-U(i+1:end,k)') ./ nodeDist(i,i+1:end);
-                    tmp(i) = sum(d);
+                    tmp = [tmp d];
                 end
-
-               err(k) = sum(tmp)/c;
+                
+                err(k) = mean(tmp);
             end
             
             varargout{1} = mean(err);
